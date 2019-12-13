@@ -4,7 +4,7 @@ Hi! Welcome to my Cheatsheet of P/L SQL. This is still work in progress but I ho
 
 ToDo:
 - [ ] Procedures
-- [x] Functions
+- [ ] Functions
 - [ ] Packages
 - [ ] Everything else?
 
