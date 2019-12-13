@@ -1,0 +1,29 @@
+-- Funkcja pobierająca datę i zwracająca ile lat minęło od tej daty
+CREATE OR REPLACE FUNCTION IleLat
+    (
+    vData IN DATE
+    ) RETURN NUMBER IS
+    vWynik NUMBER;
+BEGIN
+    vWynik := EXTRACT(YEAR FROM (CURRENT_DATE - vData) YEAR TO MONTH);
+    RETURN vWynik;
+END IleLat;
+/
+
+SELECT NAZWISKO, IleLat(ZATRUDNIONY) AS Staz FROM PRACOWNICY;
+/
+
+-- Silnia rekurencyjnie
+CREATE OR REPLACE FUNCTION SilniaRek
+    (
+    pN IN NUMBER
+    ) RETURN NUMBER IS
+    vWynik NUMBER := 1;
+BEGIN
+    IF pN = 0 THEN
+        RETURN 1;
+    ELSE
+        RETURN pN * SilniaRek(pN -1);
+    END IF;
+END SilniaRek;
+/
