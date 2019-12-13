@@ -34,7 +34,9 @@ BEGIN
 RETURN <ReturnedValue>;
 END <FuncionName>;
 ```
-![TestŁobrazka](https://docs.oracle.com/cd/B19306_01/server.102/b14200/img/create_function.gif)
+![](https://docs.oracle.com/cd/B19306_01/server.102/b14200/img/create_function.gif)
+
+Illustration from [Oracle Database Online Documentation](https://docs.oracle.com/cd/B19306_01/server.102/b14200/statements_5009.htm)
 ### Wyjasnienia tego wszystkiego
 
 ### Examples
