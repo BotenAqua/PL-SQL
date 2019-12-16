@@ -35,7 +35,7 @@ END <ProcedureName>;
 ```
 Argument [IN | OUT | IN OUT] [NOCOPY] <DataType> [DEFAULT <DefaultValue>]
 ```
-#### Parameters modes:
+#### Parameter modes:
 - **IN** - default mode; It lets you pass the value to the procedure. It's the read-only parameter. Inside the procedure it acts like a constant
 - **OUT** - Returns value to the caller. You can reference and use its value inside the procedure.
 - **IN OUT** - Combination of **IN** and **OUT** ~~(duh)~~. It passes the value to the procedure, allows modification and returnes the value to the caller.
@@ -75,7 +75,7 @@ This procedure is one big overkill but it shows basic concepts.
 We define two parameters: **pNumber** and **pReturn** and the variable vOne.
 Next we **do complicated operations on the data** and assign recived value to **pReturn**.
 
-**pReturn** is in the **OUT** mode ([what?](#Parameters_modes)) and that's why **b** is equal to 2.
+**pReturn** is in the **OUT** mode ([what?](#Parameter-modes)) and that's why **b** is equal to 2.
 
 ### BetterAddOne
 ```SQL
@@ -98,7 +98,7 @@ DBMS_OUTPUT.PUT_LINE('Value of a: ' || a);
 END;
 ```
 Better? Better! Cleaner? Sure!
-All redundant code parts have been cut out and we use **IN OUT** parameter mode.
+All redundant code parts have been cut out and we use **IN OUT** parameter mode([?](#Parameter-modes)).
 
 
 ## Functions
