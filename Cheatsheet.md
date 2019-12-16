@@ -7,7 +7,6 @@ ToDo:
 - [ ] Packages
 - [ ] Everything else?
 
-- 
 
 ## Procedures
 A Procedure is a group of PL/SQL statements that are stored on the database server. The use of the procedure requires calling it by the user:
