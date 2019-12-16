@@ -3,23 +3,64 @@
 Hi! Welcome to my Cheatsheet of P/L SQL. This is still work in progress but I hope you will find something usefull here ;-)
 
 ToDo:
-- [ ] Procedures
+- [X] Procedures
 - [ ] Functions
 - [ ] Packages
 - [ ] Everything else?
 
 ## Procedures
+A Procedure is a group of PL/SQL statements that are stored on the database server. The use of the procedure requires calling it by the user:
 ```
-CREATE [OR REPLACE] PROCEDURE <ProcedureName> IS
+BEGIN
+  ProcedureName;
+END;
+```
+or
+```
+EXECUTE ProcedureName;
+```
+### Procedure syntax
+```
+CREATE [OR REPLACE] PROCEDURE <ProcedureName> 
 [ (
 Argument [IN | OUT | IN OUT] [NOCOPY] <DataType> [DEFAULT <DefaultValue>] [,
 Argument [IN | OUT | IN OUT] [NOCOPY] <DataType> [DEFAULT <DefaultValue>] ...]
-) ]
+) ] IS
 [Other Declarations]
 BEGIN
   <ProcedureBody>;
 END <ProcedureName>;
 ```
+### Procedure parameters
+```
+Argument [IN | OUT | IN OUT] [NOCOPY] <DataType> [DEFAULT <DefaultValue>]
+```
+#### Parameters modes:
+- **IN** - default mode; It lets you pass the value to the procedure. It's the read-only parameter. Inside the procedure it acts like a constant
+- **OUT** - Returns value to the caller. You can reference and use its value inside the procedure.
+- **IN OUT** - Combination of **IN** and **OUT** ~~(duh)~~. It passes the value to the procedure, allows modification and returnes the value to the caller.
+<!-- NO COPY -->
+#### Defining datatype
+
+While specyfying datatype you can not specify length or precision. For example use **VARCHAR** instead of **VARCHAR(20)** or **NUMBER** instead of **NUMBER(6,2)**.
+
+#### Default value
+Use **DEFAULT** to specyfy the default value of the argument. You can use := instead of **DEFAULT**.
+
+### Examples
+#### AddOne
+```
+CREATE OR REPLACE PROCEDURE AddOne 
+(
+vTest IN NUMBER DEFAULT 1,
+vReturn OUT NUMBER
+) IS
+vOne NUMBER(1) := 1;
+BEGIN
+    vReturn := vTest + vOne;
+END AddOne;
+```
+
 
 ## Functions
 ```SQL
