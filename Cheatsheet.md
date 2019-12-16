@@ -1,8 +1,8 @@
-# P/L SQL Cheatsheet
+# PL/SQL Cheatsheet
 Hi! Welcome to my Cheatsheet of P/L SQL. This is still work in progress but I hope you will find something usefull here ;-)
 
 ToDo:
-- [X] [Procedures](https://github.com/BotenAqua/PL-SQL/blob/master/Cheatsheet.md#Procedures)
+- [X] [Procedures](#Procedures)
 - [ ] Functions
 - [ ] Packages
 - [ ] Everything else?
@@ -10,17 +10,17 @@ ToDo:
 
 ## Procedures
 A Procedure is a group of PL/SQL statements that are stored on the database server. The use of the procedure requires calling it by the user:
-```
+```SQL
 BEGIN
   ProcedureName;
 END;
 ```
 or
-```
+```SQL
 EXECUTE ProcedureName;
 ```
 ### Procedure syntax
-```
+```SQL
 CREATE [OR REPLACE] PROCEDURE <ProcedureName> 
 [ (
 Argument [IN | OUT | IN OUT] [NOCOPY] <DataType> [DEFAULT <DefaultValue>] [,
@@ -49,17 +49,56 @@ Use **DEFAULT** to specyfy the default value of the argument. You can use := ins
 
 ### Examples
 #### AddOne
-```
-CREATE OR REPLACE PROCEDURE AddOne 
+
+```SQL
+CREATE OR REPLACE PROCEDURE AddOne
 (
-vTest IN NUMBER DEFAULT 1,
-vReturn OUT NUMBER
+pNumber IN NUMBER,
+pReturn OUT NUMBER
 ) IS
 vOne NUMBER(1) := 1;
 BEGIN
-    vReturn := vTest + vOne;
+    pReturn := pNumber + vOne;
 END AddOne;
+/
+DECLARE
+a NUMBER(1);
+b NUMBER(1);
+BEGIN
+a := 1;
+AddOne(a, b);
+DBMS_OUTPUT.PUT_LINE('Value of a: ' || a);
+DBMS_OUTPUT.PUT_LINE('Value of b: ' || b);
+END;
 ```
+This procedure is one big overkill but it shows basic concepts.
+We define two parameters: **pNumber** and **pReturn** and the variable vOne.
+Next we **do complicated operations on the data** and assign recived value to **pReturn**.
+
+**pReturn** is in the **OUT** mode ([what?](#Parameters_modes)) and that's why **b** is equal to 2.
+
+### BetterAddOne
+```SQL
+CREATE OR REPLACE PROCEDURE BetterAddOne
+(
+pNumber IN OUT NUMBER
+) IS
+BEGIN
+    pNumber := pNumber + 1;
+END BetterAddOne;
+
+/
+
+DECLARE
+a NUMBER(1);
+BEGIN
+a := 1;
+BetterAddOne(a);
+DBMS_OUTPUT.PUT_LINE('Value of a: ' || a);
+END;
+```
+Better? Better! Cleaner? Sure!
+All redundant code parts have been cut out and we use **IN OUT** parameter mode.
 
 
 ## Functions
