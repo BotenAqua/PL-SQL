@@ -1,5 +1,5 @@
 # PL/SQL Cheatsheet
-Hi! Welcome to my Cheatsheet of P/L SQL. This is still work in progress but I hope you will find something usefull here ;-)
+Hi! Welcome to my Cheatsheet of PL/SQL. This is still work in progress but I hope you will find something usefull here ;-)
 
 ToDo:
 - [X] [Procedures](#Procedures)
