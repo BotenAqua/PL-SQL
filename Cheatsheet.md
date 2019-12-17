@@ -9,19 +9,19 @@ ToDo:
 
 
 ## Procedures
-A Procedure is a group of PL/SQL statements that are stored on the database server. The use of the procedure requires calling it by the user:
-```SQL
+A procedure is a group of PL/SQL statements that are stored on the database server. The use of the procedure requires calling it by the user:
+```
 BEGIN
   ProcedureName;
 END;
 ```
 or
-```SQL
+```
 EXECUTE ProcedureName;
 ```
 ### Procedure syntax
-```SQL
-CREATE [OR REPLACE] PROCEDURE <ProcedureName> 
+```
+CREATE [OR REPLACE] PROCEDURE <ProcedureName>
 [ (
 Argument [IN | OUT | IN OUT] [NOCOPY] <DataType> [DEFAULT <DefaultValue>] [,
 Argument [IN | OUT | IN OUT] [NOCOPY] <DataType> [DEFAULT <DefaultValue>] ...]
@@ -50,7 +50,7 @@ Use **DEFAULT** to specyfy the default value of the argument. You can use := ins
 ### Examples
 #### AddOne
 
-```SQL
+```
 CREATE OR REPLACE PROCEDURE AddOne
 (
 pNumber IN NUMBER,
@@ -77,8 +77,8 @@ Next we **do complicated operations on the data** and assign recived value to **
 
 **pReturn** is in the **OUT** mode ([what?](#Parameter-modes)) and that's why **b** is equal to 2.
 
-### BetterAddOne
-```SQL
+#### BetterAddOne
+```
 CREATE OR REPLACE PROCEDURE BetterAddOne
 (
 pNumber IN OUT NUMBER
@@ -99,26 +99,64 @@ END;
 ```
 Better? Better! Cleaner? Sure!
 All redundant code parts have been cut out and we use **IN OUT** parameter mode([?](#Parameter-modes)).
+#### "Real" example
+```
+CREATE OR REPLACE PROCEDURE NewIntern
+    (
+    pLastName IN Employees.LastName%type,
+    pTeam IN Teams.TeamName%type,
+    pBoss IN Employees.LastName%type,
+    pSalary IN Employees.Salary%type
+    ) IS
+    vTeamID Teams.TeamID%type;
+    vBossID pracownicy.EmployeeID%type;
+BEGIN
+    --Team
+    SELECT Teams.TeamID
+    INTO vTeamID
+    FROM Teams
+    WHERE Teams.TeamName = pTeam;
 
+    --Boss
+    SELECT Employees.EmployeeID
+    INTO vBossID
+    FROM Employees
+    WHERE Employees.LastName = pBoss;
+
+    --Insert
+    INSERT INTO Employees(EmployeeID, LastName, Position, BossID, EmploymentDate, Salary,  TeamID)
+    VALUES((SELECT MAX(Employees.EmployeeID) + 1 FROM Employees), pLastName, 'Intern', vBossID, current_date, pSalary, vTeamID);
+END NewIntern;
+```
+That's what more complicated but also more real use of procedures looks like.
 
 ## Functions
-```SQL
+A function is a group of PL/SQL statements that are stored on the database server. Functions and procedures are very similar but functions returns a value to the caller.
+### Function syntax
+```
 CREATE [OR REPLACE] FUNCTION <FunctionName>
 [ (
 Argument [IN | OUT | IN OUT] [NOCOPY] <DataType> [,
 Argument [IN | OUT | IN OUT] [NOCOPY] <DataType> ...]
-) ] RETURN <DataType>
+) ] RETURN <DataType> IS
 [Other Declarations]
 BEGIN
   <FunctionBody>;
 RETURN <ReturnedValue>;
 END <FuncionName>;
 ```
-![](https://docs.oracle.com/cd/B19306_01/server.102/b14200/img/create_function.gif)
+<!--![](https://docs.oracle.com/cd/B19306_01/server.102/b14200/img/create_function.gif)
 
-Illustration from [Oracle Database Online Documentation](https://docs.oracle.com/cd/B19306_01/server.102/b14200/statements_5009.htm)
-### Wyjasnienia tego wszystkiego
-
+Illustration from [Oracle Database Online Documentation](https://docs.oracle.com/cd/B19306_01/server.102/b14200/statements_5009.htm)-->
+Function syntax is the same as the [procedure syntax](#procedure-syntax) with the exception of defining **RETURN**:
+```
+RETURN <DataType>
+```
+and returning value to the caller:
+```
+RETURN <ReturnedValue>;
+```
+Function **MUST** return a value to the caller (error 06503) even if the value is she same every time for example **NULL**.
 ### Examples
 #### ReturnOne
 ```
